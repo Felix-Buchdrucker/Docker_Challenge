@@ -1,28 +1,23 @@
-pipeline{
-    
-            stages{
-                stage("Preparation"){
-                     
-                        checkout scm
-                    
-                        echo "Logging into Docker Hub"
-                        withCredentials([
-                            usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]) 
-                
-                        echo "Pulling repo from Docker Hub"
-                        sh "docker pull buchdfel/docker-project:latest"
-                    
-                }
-                stage("Execution"){
+node(){
+    stage("Preparation"){
+            
+        checkout scm
 
-                    docker.image('buchdfel/docker-project:latest').inside() {
-                
-                        sh """ #! bin/bash/
-                            docker build -t Dockerfile .
-                            docker run -p 8000:8080 Dockerfile
-                            """
-                    }
-                }
-            }
-         
+        echo "Logging into Docker Hub"
+        withCredentials([
+            usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user') 
+            echo "Pulling repo from Docker Hub"
+            sh "docker pull buchdfel/docker-project:latest"
+    ])
+    }
+    stage("Execution"){
+
+        docker.image('buchdfel/docker-project:latest').inside() {
+    
+            sh """ #! bin/bash/
+                docker build -t Dockerfile .
+                docker run -p 8000:8080 Dockerfile
+                """
+        }
+    }
 }
