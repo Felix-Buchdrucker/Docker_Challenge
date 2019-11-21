@@ -17,7 +17,7 @@ pipeline{
                 }
                 stage("Execution"){
                     steps{
-                        sh " #! /bin/bash
+                        sh " 
                             docker build -t Dockerfile .
                             docker run -p 8000:8080 Dockerfile
                             "
