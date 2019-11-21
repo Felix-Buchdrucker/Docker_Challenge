@@ -3,10 +3,10 @@ node(){
             
         checkout scm
 
-        echo "Logging into Docker Hub"
+        sh "echo Logging into Docker Hub"
         withCredentials([
             usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user') 
-            echo "Pulling repo from Docker Hub"
+            sh "echo Pulling repo from Docker Hub"
             sh "docker pull buchdfel/docker-project:latest"
     ])
     }
