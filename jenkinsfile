@@ -16,12 +16,14 @@ pipeline{
                     }
                 }
                 stage("Execution"){
+                    agent{Dockerfile true}
                     steps{
-                        sh " 
+                        sh """ #! bin/bash/
                             docker build -t Dockerfile .
                             docker run -p 8000:8080 Dockerfile
-                            "
+                            """
                     }
                 }
             }
          }
+}
