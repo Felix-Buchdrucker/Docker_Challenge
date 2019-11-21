@@ -53,7 +53,10 @@
 // }
 
 pipeline(){
-    stage("Preparation"){
+
+    agent any
+
+    stages("Preparation"){
         steps{
             
         checkout scm
@@ -68,7 +71,7 @@ pipeline(){
     }
     }
     }
-    stage("Execution"){
+    stages("Execution"){
         steps{
 
         docker.image('buchdfel/docker-project:latest').inside() {
