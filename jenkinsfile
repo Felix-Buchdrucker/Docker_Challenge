@@ -32,7 +32,8 @@ node(){
             sh "echo Pulling repo from Docker Hub"
             sh "docker login --username ${user} --password ${pass}"
             sh "docker pull buchdfel/docker-project:latest"
-            }
+            
+    }
     }
     stage("Execution"){
 
