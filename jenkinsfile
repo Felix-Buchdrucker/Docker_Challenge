@@ -30,6 +30,7 @@ node(){
         withCredentials([
             usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
             sh "echo Pulling repo from Docker Hub"
+            sh "docker login --username ${user} --password ${pass}"
             sh "docker pull buchdfel/docker-project:latest"
             }
     }
