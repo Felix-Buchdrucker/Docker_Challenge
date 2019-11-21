@@ -1,23 +1,22 @@
 pipeline{
-    agent{
+    
             stages{
                 stage("Preparation"){
-                    steps {
+                     
                         checkout scm
-                    }
-                    steps{
+                    
                         echo "Logging into Docker Hub"
                         withCredentials([
                             usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]) 
-                    }
-                    steps{
+                
                         echo "Pulling repo from Docker Hub"
-                        sh "docker pull buchdfel/docker-project:ltatest"
-                    }
+                        sh "docker pull buchdfel/docker-project:latest"
+                    
                 }
                 stage("Execution"){
-                    agent{Dockerfile true}
-                    steps{
+
+                    docker.image('buchdfel/docker-project:latest').inside() {
+                
                         sh """ #! bin/bash/
                             docker build -t Dockerfile .
                             docker run -p 8000:8080 Dockerfile
@@ -25,5 +24,5 @@ pipeline{
                     }
                 }
             }
-         }
+         
 }
