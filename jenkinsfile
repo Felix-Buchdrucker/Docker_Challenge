@@ -26,38 +26,8 @@
 
 // V2 below:
 
-// node(){
-//     stage("Preparation"){
-            
-//         checkout scm
-
-//         sh "echo Logging into Docker Hub"
-//         withCredentials([
-//             usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
-//             sh "echo Pulling repo from Docker Hub"
-//             sh "docker login --username ${user} --password ${pass}"
-//             sh "docker pull buchdfel/docker-project:latest"
-            
-//     }
-//     }
-//     stage("Execution"){
-
-//         docker.image('buchdfel/docker-project:latest').inside() {
-    
-//             sh """ #! bin/bash/
-//                 docker build -t Dockerfile .
-//                 docker run -p 8000:8080 Dockerfile
-//                 """
-//         }
-//     }
-// }
-
-pipeline(){
-
-    agent any
-
-    stages("Preparation"){
-        steps{
+node(){
+    stage("Preparation"){
             
         checkout scm
 
@@ -70,9 +40,7 @@ pipeline(){
             
     }
     }
-    }
-    stages("Execution"){
-        steps{
+    stage("Execution"){
 
         docker.image('buchdfel/docker-project:latest').inside() {
     
@@ -81,6 +49,39 @@ pipeline(){
                 docker run -p 8000:8080 Dockerfile
                 """
         }
-     }
     }
 }
+
+// pipeline(){
+
+//     agent any
+//     stages{
+//         stage("Preparation"){
+//             steps{
+                
+//             checkout scm
+
+//             sh "echo Logging into Docker Hub"
+//             withCredentials([
+//                 usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
+//                 sh "echo Pulling repo from Docker Hub"
+//                 sh "docker login --username ${user} --password ${pass}"
+//                 sh "docker pull buchdfel/docker-project:latest"
+                
+//         }
+//         }
+//         }
+//         stage("Execution"){
+//             steps{
+
+//             docker.image('buchdfel/docker-project:latest').inside() {
+
+//                 sh """ #! bin/bash/
+//                     docker build -t Dockerfile .
+//                     docker run -p 8000:8080 Dockerfile
+//                     """
+//             }
+//             }
+//         }
+//     }
+// }
