@@ -34,13 +34,13 @@ node {
         sh "echo Logging into Docker Hub"
         // withCredentials([usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
         withCredentials([file(credentialsId: "a1c94cdd-66f4-4a39-b62c-310049603365", variable: 'config')]) {
-            sh """""""
-            docker login --username ${user} --password ${pass}
-            echo Login
-            cp \$config .
-            docker --config . build -t buchdfel/docker-project:latest . 
-            docker --config . push buchdfel/docker-project:latest && rm -rf config-options.json
-            """""""
+            
+            sh "docker login --username ${user} --password ${pass}"
+            sh "echo Login"
+            sh "cp \$config ."
+            sh "docker --config . build -t buchdfel/docker-project:latest . "
+            sh "docker --config . push buchdfel/docker-project:latest && rm -rf config-options.json"
+            
        }
     }
     stage("Execution"){
