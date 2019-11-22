@@ -1,90 +1,14 @@
-// V1:
-// 
-// node(){
-//     stage("Preparation"){
-            
-//         checkout scm
-
-//         // sh "echo Logging into Docker Hub"
-//         withCredentials([
-//             usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user') 
-//             // sh "echo Pulling repo from Docker Hub"
-//             sh "docker pull buchdfel/docker-project:latest"
-//     ])
-//     }
-//     stage("Execution"){
-
-//         docker.image('buchdfel/docker-project:latest').inside() {
-    
-//             sh """ #! bin/bash/
-//                 docker build -t Dockerfile .
-//                 docker run -p 8000:8080 Dockerfile
-//                 """
-//         }
-//     }
-// }
-
-// V2 below:
-
 node {
     stage("Preparation"){
-            
         checkout scm
-
-        sh "echo Logging into Docker Hub"
-        withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]){
-        // withCredentials([file(credentialsId: "DockerHUBID", variable: "co")]) {
-            
-            sh "docker login --username ${user} --password ${pass}"
-            sh "echo Login"
-            // sh "cp \$config-options ."
-            sh "docker build -t buchdfel/docker-project:latest . "
-            sh "docker push buchdfel/docker-project:latest "
-            
-       }
     }
-    stage("Execution"){
-
-        docker.image("buchdfel/docker-project:latest").inside{
-    
-            sh " #! bin/bash/"
-            sh "docker pull buchdfel/docker-project:latest"
-            sh "docker run -p 8000:8080 buchdfel/docker-project:latest"
-                
+    stage("Login"){
+        withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]){
+        sh "docker login --username ${user} --password ${pass}"
         }
     }
+    stage("Execution"){
+        sh "docker pull buchdfel/docker-project:latest"
+        sh "docker run buchdfel/docker-project:latest" 
+    }
 }
-
-// pipeline(){
-
-//     agent any
-//     stages{
-//         stage("Preparation"){
-//             steps{
-                
-//             checkout scm
-
-//             sh "echo Logging into Docker Hub"
-//             withCredentials([
-//                 usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
-//                 sh "echo Pulling repo from Docker Hub"
-//                 sh "docker login --username ${user} --password ${pass}"
-//                 sh "docker pull buchdfel/docker-project:latest"
-                
-//         }
-//         }
-//         }
-//         stage("Execution"){
-//             steps{
-
-//             docker.image('buchdfel/docker-project:latest').inside() {
-
-//                 sh """ #! bin/bash/
-//                     docker build -t Dockerfile .
-//                     docker run -p 8000:8080 Dockerfile
-//                     """
-//             }
-//             }
-//         }
-//     }
-// }
