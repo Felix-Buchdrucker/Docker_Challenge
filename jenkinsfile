@@ -33,11 +33,11 @@ node {
 
         sh "echo Logging into Docker Hub"
         // withCredentials([usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
-        withCredentials([file(credentialsId: "e91989f0-85b9-489a-b743-801134f8fdae", variable: 'config')]) {
+        withCredentials([file(credentialsId: "config-options.json", variable: "config-options")]) {
             
-            sh "docker login --username ${user} --password ${pass}"
+            // sh "docker login --username ${user} --password ${pass}"
             sh "echo Login"
-            sh "cp \$config ."
+            sh "cp \$config-options ."
             sh "docker --config . build -t buchdfel/docker-project:latest . "
             sh "docker --config . push buchdfel/docker-project:latest && rm -rf config-options.json"
             
@@ -49,7 +49,7 @@ node {
     
             sh " #! bin/bash/"
             sh "docker pull buchdfel/docker-project:latest"
-            sh "docker run -p 8000:8080 sh buchdfel/docker-project:latest"
+            sh "docker run -p 8000:8080 buchdfel/docker-project:latest"
                 
         }
     }
