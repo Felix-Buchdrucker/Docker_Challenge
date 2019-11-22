@@ -32,14 +32,14 @@ node {
         checkout scm
 
         sh "echo Logging into Docker Hub"
-        // withCredentials([usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
-        withCredentials([file(credentialsId: "config-options.json", variable: "config-options")]) {
+        withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]){
+        // withCredentials([file(credentialsId: "DockerHUBID", variable: "co")]) {
             
-            // sh "docker login --username ${user} --password ${pass}"
+            sh "docker login --username ${user} --password ${pass}"
             sh "echo Login"
-            sh "cp \$config-options ."
-            sh "docker --config . build -t buchdfel/docker-project:latest . "
-            sh "docker --config . push buchdfel/docker-project:latest && rm -rf config-options.json"
+            // sh "cp \$config-options ."
+            sh "docker build -t buchdfel/docker-project:latest . "
+            sh "docker push buchdfel/docker-project:latest "
             
        }
     }
