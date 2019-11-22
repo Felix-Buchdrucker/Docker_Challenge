@@ -33,7 +33,6 @@ node {
 
         sh "echo Logging into Docker Hub"
         withCredentials([usernamePassword(credentialsId: 'a1c94cdd-66f4-4a39-b62c-310049603365', passwordVariable: 'pass', usernameVariable: 'user')]){
-        withCredentials([usernamePassword(credentialsId: 'amazon', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh "echo Pulling repo from Docker Hub"
             sh """docker login --username ${user} --password ${pass}"""
             sh "echo Login"
