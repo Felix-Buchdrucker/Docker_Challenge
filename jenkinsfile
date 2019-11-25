@@ -2,13 +2,19 @@ node {
     stage("Preparation"){
         checkout scm
     }
-    stage("Login"){
-        withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]){
-        sh "docker login --username ${user} --password ${pass}"
-        }
+    environment {
+    registry = "buchdfel/docker-project"
+    registryCredential = "DOCKERHUBID"
     }
-    stage("Execution"){
-        sh "docker pull buchdfel/docker-project:latest"
-        sh "docker run buchdfel/docker-project:latest" 
-    }
+    stages{
+            stage("Login"){
+                withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]){
+                sh "docker login --username $user --password $pass"
+                }
+            }
+            stage("Execution"){
+                sh "docker pull buchdfel/docker-project:latest"
+                sh "docker run buchdfel/docker-project:latest" 
+            }
+         }
 }
