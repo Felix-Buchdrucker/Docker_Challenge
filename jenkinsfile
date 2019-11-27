@@ -8,11 +8,11 @@ node{
         // sh "apt-get install docker"
         }
     }
-    stage("Execution"){
-        sh "docker run buchdfel/docker-project:entrypoint"
-    }
+    // stage("Execution"){
+    //     sh "docker run buchdfel/docker-project:entrypoint"
+    // }
     stage("Inside Docker"){
-        docker.image('buchdfel/docker-project:latest').inside() {
+        docker.image('buchdfel/docker-project:entrypoint').inside() {
             sh "python app_new.py"
         }
     }
