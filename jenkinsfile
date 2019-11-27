@@ -12,7 +12,7 @@ node{
         sh "docker run buchdfel/docker-project:latest"
     }
     stage("Inside Docker"){
-        docker.image('buchdfel/docker-project:latest').inside("entrypoint=""") {
+        docker.image('buchdfel/docker-project:latest').inside("entrypoint=''") {
             sh "python app_new.py"
         }
     }
