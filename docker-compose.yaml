@@ -1,13 +1,12 @@
-version: "2"
+version: "3"
 services:
   jenkins:
     image: jenkins/jenkins:lts
     ports:
-      - "443:8080"
-      - "5050:5050"
+     - "8080:8080"
+     - "5050:5050"
     volumes:
-      - Jenkins:/ .
+    - Jenkins:/ .
     restart: unless-stopped
-
 volumes:
   Jenkins:

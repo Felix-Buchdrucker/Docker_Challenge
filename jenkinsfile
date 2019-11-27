@@ -1,18 +1,26 @@
 node {
-    stage("Preparation"){
-        checkout scm
-    }
-    environment {
-    registry = "buchdfel/docker-project"
-    registryCredential = "DOCKERHUBID"
-    }
+        // stage("new"){
+        //     sh """
+        //     RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz \
+        //     && tar xzvf docker-17.04.0-ce.tgz \
+        //     && mv docker/docker /usr/local/bin \
+        //     && rm -r docker docker-17.04.0-ce.tgz
+        //     """
+        // }
+    docker.image('buchdfel/docker-project:latest').inside() {
+        stage("Preparation"){
+            //checkout scm
+        }
         stage("Login"){
-            withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]){
-            sh "docker login --username $user --password $pass"
+            withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]) {
+            sh "echo test"
+            // sh "apt-get update"
+            // sh "apt-get install docker"
             }
         }
         stage("Execution"){
-            sh "docker pull buchdfel/docker-project:latest"
-            sh "docker run buchdfel/docker-project:latest" 
+            // sh "docker ps"
+            // sh "docker run buchdfel/docker-project:latest" 
         }
+    }
 }
