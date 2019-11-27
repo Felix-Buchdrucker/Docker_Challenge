@@ -14,12 +14,12 @@ node {
         stage("Login"){
             withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]) {
             sh "echo test"
-            // sh "apt-get update"
             // sh "apt-get install docker"
             }
         }
         stage("Execution"){
-            // sh "docker ps"
+            sh "docker ps"
             sh "docker run buchdfel/docker-project:latest" 
+            sh "python app_new.py"
         }
     }
