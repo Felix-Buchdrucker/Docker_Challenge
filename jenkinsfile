@@ -18,7 +18,7 @@ node{
             }
         }
         stage("Execution"){
-            sh "docker run buchdfel/docker-project:lts"
+            sh "docker run buchdfel/docker-project:latest"
             sh "python app_new.py"
         }
     }

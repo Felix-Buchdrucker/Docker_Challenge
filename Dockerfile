@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install python-pip -y
 
 RUN apt-get install bash
 
+RUN pip3 install Flask
+
 RUN chmod +x Challenge.sh
 
 ENTRYPOINT  bash Challenge.sh
