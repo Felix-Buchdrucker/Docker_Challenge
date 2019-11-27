@@ -7,9 +7,9 @@ node {
         //     && rm -r docker docker-17.04.0-ce.tgz
         //     """
         // }
-    docker.image('buchdfel/docker-project:latest').inside() {
+        // docker.image('buchdfel/docker-project:latest').inside() {
         stage("Preparation"){
-            //checkout scm
+            checkout scm
         }
         stage("Login"){
             withCredentials([usernamePassword(credentialsId: 'DockerHUBID', passwordVariable: 'pass', usernameVariable: 'user')]) {
@@ -20,7 +20,6 @@ node {
         }
         stage("Execution"){
             // sh "docker ps"
-            // sh "docker run buchdfel/docker-project:latest" 
+            sh "docker run buchdfel/docker-project:latest" 
         }
     }
-}
